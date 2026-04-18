@@ -1,13 +1,14 @@
 "use client"
 
 import React from "react"
+import { cn } from "@/lib/utils"
 
 interface AdBannerProps {
   type: "leaderboard" | "sidebar" | "in-feed"
   className?: string
 }
 
-export function AdBanner({ type, className = "" }: AdBannerProps) {
+export function AdBanner({ type, className }: AdBannerProps) {
   // Define dimensions and styles based on type
   const styles = {
     leaderboard: "w-full max-w-[970px] h-[90px] md:h-[250px]",
@@ -43,7 +44,7 @@ export function AdBanner({ type, className = "" }: AdBannerProps) {
   const currentAd = ads[type]
 
   return (
-    <div className={`flex flex-col items-center justify-center my-8 ${className}`}>
+    <div className={cn("flex flex-col items-center justify-center my-8", className)}>
       <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-2">Advertisement</span>
       <div 
         className={`${styles[type]} bg-gradient-to-br ${currentAd.color} relative overflow-hidden group cursor-pointer border border-zinc-200 dark:border-zinc-800 shadow-sm`}

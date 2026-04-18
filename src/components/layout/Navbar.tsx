@@ -11,9 +11,17 @@ import Image from 'next/image'
 import { useAuth } from '@/components/auth/AuthProvider'
 
 const CATEGORIES = [
-  "Cyber Crime", "Forensics", "Investigations", "Dark Web",
-  "Policy", "Privacy", "Security", "Intelligence", "Finance",
-  "Legal", "Global"
+  { label: "Politics", slug: "politics" },
+  { label: "Opinions", slug: "opinions" },
+  { label: "Style", slug: "style" },
+  { label: "Investigations", slug: "investigations" },
+  { label: "Finance", slug: "ledger" },
+  { label: "Well-Being", slug: "well-being" },
+  { label: "Business", slug: "business" },
+  { label: "Tech", slug: "tech" },
+  { label: "World", slug: "world" },
+  { label: "Sports", slug: "sports" },
+  { label: "Visual", slug: "visual" },
 ]
 
 const TRENDING = [
@@ -46,9 +54,6 @@ export function Navbar() {
     <>
       {/* ─────────────── MAIN HEADER ─────────────── */}
       <header className="w-full bg-[#FCFBF9] dark:bg-[#0A0A0A] font-sans">
-
-        {/* Financial Ticker */}
-        <StockTicker />
 
         {/* Top Utility Row */}
         <div className="border-b border-zinc-200 dark:border-zinc-800">
@@ -156,16 +161,19 @@ export function Navbar() {
           </Link>
         </div>
 
+        {/* Financial Ticker */}
+        <StockTicker />
+
         {/* Category Nav */}
         <nav className="hidden md:block border-b border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center justify-center gap-7 py-3.5 max-w-[1400px] mx-auto px-4 overflow-hidden">
             {CATEGORIES.map(cat => (
               <Link
-                key={cat}
-                href="#"
+                key={cat.slug}
+                href={`/category/${cat.slug}`}
                 className="text-[13px] font-bold text-zinc-900 dark:text-zinc-100 hover:text-red-700 dark:hover:text-red-500 transition-colors whitespace-nowrap"
               >
-                {cat}
+                {cat.label}
               </Link>
             ))}
           </div>
@@ -218,7 +226,7 @@ export function Navbar() {
               {/* Center: Category pills on desktop */}
               <nav className="hidden xl:flex items-center gap-5">
                 {CATEGORIES.slice(0, 5).map(cat => (
-                  <Link key={cat} href="#" className="text-[12px] font-bold text-zinc-600 dark:text-zinc-400 hover:text-red-700 transition-colors">{cat}</Link>
+                  <Link key={cat.slug} href={`/category/${cat.slug}`} className="text-[12px] font-bold text-zinc-600 dark:text-zinc-400 hover:text-red-700 transition-colors">{cat.label}</Link>
                 ))}
                 <span className="text-zinc-300 dark:text-zinc-700">|</span>
               </nav>
@@ -296,12 +304,12 @@ export function Navbar() {
                     </Link>
                   </motion.div>
                   {CATEGORIES.map((cat) => (
-                    <motion.div key={cat} variants={{ hidden: { x: -20, opacity: 0 }, visible: { x: 0, opacity: 1 } }}>
+                    <motion.div key={cat.slug} variants={{ hidden: { x: -20, opacity: 0 }, visible: { x: 0, opacity: 1 } }}>
                       <Link
-                        href="#" onClick={() => setIsMenuOpen(false)}
+                        href={`/category/${cat.slug}`} onClick={() => setIsMenuOpen(false)}
                         className="block py-3.5 border-b border-zinc-100 dark:border-zinc-900 font-sans text-[16px] font-semibold text-zinc-600 dark:text-zinc-400 hover:text-red-700 dark:hover:text-red-500 transition-colors"
                       >
-                        {cat}
+                        {cat.label}
                       </Link>
                     </motion.div>
                   ))}

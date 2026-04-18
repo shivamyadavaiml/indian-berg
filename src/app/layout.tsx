@@ -35,8 +35,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans bg-white dark:bg-black text-black dark:text-zinc-100">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          forcedTheme="dark"
           disableTransitionOnChange
         >
           <AuthProvider>
