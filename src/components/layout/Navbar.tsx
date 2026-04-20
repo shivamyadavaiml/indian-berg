@@ -10,18 +10,10 @@ import { useSession, signOut } from 'next-auth/react'
 import Image from 'next/image'
 import { useAuth } from '@/components/auth/AuthProvider'
 
-const CATEGORIES = [
-  { label: "Politics", slug: "politics" },
-  { label: "Opinions", slug: "opinions" },
-  { label: "Style", slug: "style" },
-  { label: "Investigations", slug: "investigations" },
-  { label: "Finance", slug: "ledger" },
-  { label: "Well-Being", slug: "well-being" },
-  { label: "Business", slug: "business" },
-  { label: "Tech", slug: "tech" },
-  { label: "World", slug: "world" },
-  { label: "Sports", slug: "sports" },
-  { label: "Visual", slug: "visual" },
+const STATIC_CATEGORIES = [
+  "Cyber Crime", "Forensics", "Investigations", "Dark Web",
+  "Policy", "Privacy", "Security", "Intelligence", "Finance",
+  "Legal", "Global"
 ]
 
 const TRENDING = [
@@ -35,11 +27,29 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const [dynamicCategories, setDynamicCategories] = useState<string[]>([])
   const { data: session } = useSession()
   const { openSignInModal } = useAuth()
   const { scrollY } = useScroll()
 
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    // Fetch dynamic categories/tags from CMS
+    const fetchTags = async () => {
+      try {
+        const res = await fetch('/api/seed?tags=true'); // I'll need to create this or use another endpoint
+        const data = await res.json();
+        if (data.success) {
+          setDynamicCategories(data.tags);
+        }
+      } catch (e) {
+        console.error("Failed to fetch tags", e);
+      }
+    };
+    fetchTags();
+  }, [])
+
+  const categories = Array.from(new Set([...STATIC_CATEGORIES, ...dynamicCategories]));
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 130)
@@ -84,7 +94,7 @@ export function Navbar() {
                   {theme === 'dark'
                     ? <Sun className="w-[16px] h-[16px]" />
                     : <Moon className="w-[16px] h-[16px]" />
-                  }
+                    }
                 </button>
               )}
               <span className="hidden md:block text-zinc-300 dark:text-zinc-700 text-sm">|</span>
@@ -149,7 +159,6 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Masthead Logo */}
         <div className="py-6 md:py-8 text-center border-b border-zinc-200 dark:border-zinc-800">
           <Link href="/" className="inline-block group text-center">
             <h1 className="font-serif text-[42px] md:text-[68px] lg:text-[84px] font-black tracking-tighter leading-none text-zinc-950 dark:text-white group-hover:opacity-80 transition-opacity duration-500 select-none">
@@ -161,23 +170,33 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Financial Ticker */}
+        {/* Financial Ticker moved here */}
         <StockTicker />
 
-        {/* Category Nav */}
-        <nav className="hidden md:block border-b border-zinc-200 dark:border-zinc-800">
-          <div className="flex items-center justify-center gap-7 py-3.5 max-w-[1400px] mx-auto px-4 overflow-hidden">
-            {CATEGORIES.map(cat => (
+        {/* Category Nav - Now Scrollable */}
+        <nav className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black">
+          <div className="flex items-center gap-8 py-4 max-w-[1600px] mx-auto px-4 md:px-8 overflow-x-auto scrollbar-hide no-scrollbar flex-nowrap">
+            {categories.map(cat => (
               <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
-                className="text-[13px] font-bold text-zinc-900 dark:text-zinc-100 hover:text-red-700 dark:hover:text-red-500 transition-colors whitespace-nowrap"
+                key={cat}
+                href={`/category/${cat.toLowerCase().replace(/ /g, '_')}`}
+                className="text-[12px] font-bold text-zinc-900 dark:text-zinc-100 hover:text-red-700 dark:hover:text-red-500 transition-colors whitespace-nowrap flex-shrink-0"
               >
-                {cat.label}
+                {cat}
               </Link>
             ))}
           </div>
         </nav>
+
+        <style jsx global>{`
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+        `}</style>
 
         {/* Trending Bar */}
         <div className="hidden md:flex items-center gap-4 px-4 md:px-8 py-3 max-w-[1600px] mx-auto">
@@ -225,8 +244,8 @@ export function Navbar() {
 
               {/* Center: Category pills on desktop */}
               <nav className="hidden xl:flex items-center gap-5">
-                {CATEGORIES.slice(0, 5).map(cat => (
-                  <Link key={cat.slug} href={`/category/${cat.slug}`} className="text-[12px] font-bold text-zinc-600 dark:text-zinc-400 hover:text-red-700 transition-colors">{cat.label}</Link>
+                {categories.slice(0, 5).map(cat => (
+                  <Link key={cat} href={`/category/${cat.toLowerCase().replace(/ /g, '_')}`} className="text-[12px] font-bold text-zinc-600 dark:text-zinc-400 hover:text-red-700 transition-colors">{cat}</Link>
                 ))}
                 <span className="text-zinc-300 dark:text-zinc-700">|</span>
               </nav>
@@ -303,13 +322,13 @@ export function Navbar() {
                       Front Page
                     </Link>
                   </motion.div>
-                  {CATEGORIES.map((cat) => (
-                    <motion.div key={cat.slug} variants={{ hidden: { x: -20, opacity: 0 }, visible: { x: 0, opacity: 1 } }}>
+                  {categories.map((cat) => (
+                    <motion.div key={cat} variants={{ hidden: { x: -20, opacity: 0 }, visible: { x: 0, opacity: 1 } }}>
                       <Link
-                        href={`/category/${cat.slug}`} onClick={() => setIsMenuOpen(false)}
+                        href={`/category/${cat.toLowerCase().replace(/ /g, '_')}`} onClick={() => setIsMenuOpen(false)}
                         className="block py-3.5 border-b border-zinc-100 dark:border-zinc-900 font-sans text-[16px] font-semibold text-zinc-600 dark:text-zinc-400 hover:text-red-700 dark:hover:text-red-500 transition-colors"
                       >
-                        {cat.label}
+                        {cat}
                       </Link>
                     </motion.div>
                   ))}

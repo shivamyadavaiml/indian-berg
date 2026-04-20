@@ -148,12 +148,103 @@ const dummyData = [
     title: "Cyber-Forensics: The future of criminal investigations in India",
     section: "style",
     imageUrl: "https://images.unsplash.com/photo-1504384308090-c89eecaaad8e?q=80&w=800&auto=format&fit=crop"
+  },
+
+  // NEW CATEGORIES SEED DATA
+  {
+    title: "Inside the Silk Road 4.0: How the new Dark Web markets operate",
+    tag: "Dark Web",
+    section: "featured",
+    excerpt: "A deep dive into the latest encryption methods used by illicit marketplaces to evade global law enforcement.",
+    imageUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    title: "The Ghost in the Machine: Tracking state-sponsored espionage in 2026",
+    tag: "Intelligence",
+    section: "politics",
+    excerpt: "How intelligence agencies are using AI to predict and prevent digital sabotage on a global scale.",
+    imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    title: "The Crypto-Collapse: Why the next financial crisis will be digital",
+    tag: "Finance",
+    section: "ledger",
+    excerpt: "Experts warn that the lack of regulation in stablecoins could trigger a domino effect across traditional markets.",
+    imageUrl: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    title: "Digital Sovereignty: The new legal battleground for data privacy",
+    tag: "Legal",
+    section: "politics",
+    excerpt: "A breakdown of the landmark cases that will define who owns your data in the age of generative AI.",
+    imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    title: "The Silicon Curtain: How the internet is being divided by geopolitics",
+    tag: "Global",
+    section: "politics",
+    excerpt: "From firewalls to sanctions, the global web is fracturing into regional blocks with massive economic implications.",
+    imageUrl: "https://images.unsplash.com/photo-1526772662000-3f88f10c053b?q=80&w=800&auto=format&fit=crop"
+  },
+
+  // ADDITIONAL HOME PAGE CONTENT
+  {
+    title: "The TikTok Ban: What it means for India's digital creators",
+    section: "main_feed",
+    tag: "Social",
+    timeAgo: "12 hrs ago",
+    excerpt: "Five years after the initial ban, we look at the long-term impact on the creator economy and the rise of local alternatives."
+  },
+  {
+    title: "Quantum Supremacy: How India is preparing for the post-encryption era",
+    section: "main_feed",
+    tag: "Future",
+    timeAgo: "1 day ago",
+    excerpt: "Government labs in Delhi are racing to develop quantum-resistant algorithms to protect national secrets."
+  },
+  {
+    title: "The Rise of Digital Nomads in Goa: A new security challenge?",
+    section: "style",
+    tag: "Lifestyle",
+    imageUrl: "https://images.unsplash.com/photo-1512100356132-d3221e8ebe03?q=80&w=800&auto=format&fit=crop",
+    excerpt: "As remote workers flock to coastal towns, concerns over unsecure networks and data theft are on the rise."
+  },
+  {
+    title: "Wearable Tech: The next frontier for cyber espionage",
+    section: "style",
+    tag: "Tech",
+    imageUrl: "https://images.unsplash.com/photo-1510273010697-3ad99ffdd310?q=80&w=800&auto=format&fit=crop",
+    excerpt: "Your smartwatch knows your heart rate, but it might also be listening to your board meetings."
+  },
+  {
+    title: "Visual Investigation: The Anatomy of a Power Grid Hack",
+    section: "visual",
+    tag: "Visual",
+    imageUrl: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1200&auto=format&fit=crop",
+    description: "Using satellite imagery and forensic logs, we reconstruct the moment the lights went out in Mumbai."
+  },
+  {
+    title: "The Deep Sea Cables: Protecting the physical internet",
+    section: "visual",
+    tag: "Infrastructure",
+    imageUrl: "https://images.unsplash.com/photo-1551733938-22246758d61c?q=80&w=1200&auto=format&fit=crop",
+    description: "A look at the vulnerable underwater networks that carry 99% of global data traffic."
   }
 ];
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const getTagsOnly = searchParams.get('tags') === 'true';
+
     await connectToDatabase();
+
+    if (getTagsOnly) {
+      const tags = await Post.distinct('tag');
+      const sections = await Post.distinct('section');
+      const allUnique = Array.from(new Set([...tags, ...sections])).filter(Boolean);
+      return NextResponse.json({ success: true, tags: allUnique });
+    }
     
     // Clear old data
     await Post.deleteMany({});
