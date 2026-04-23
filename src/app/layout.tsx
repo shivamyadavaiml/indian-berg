@@ -19,7 +19,7 @@ const playfair = Playfair_Display({
 
 
 export const metadata: Metadata = {
-  title: "The Indianberg | Breaking barriers, shaping narrative",
+  title: "The Indian Berg | Breaking barriers, shaping narrative",
   description: "Advanced investigative reporting on modern cyber crime, forensic analysis, and the global digital underground.",
 };
 

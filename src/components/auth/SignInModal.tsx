@@ -99,7 +99,7 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
                   <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">
                     {mode === "signin"
                       ? "Sign in to like, comment, and save articles."
-                      : "Join The Indianberg community."}
+                      : "Join The Indian Berg community."}
                   </p>
                 </div>
                 <button

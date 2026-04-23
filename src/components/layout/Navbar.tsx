@@ -162,10 +162,10 @@ export function Navbar() {
           <Link href="/" className="inline-block group text-center no-underline">
             <Image 
               src="/logo.png" 
-              alt="The Indianberg" 
+              alt="The Indian Berg" 
               width={1000} 
               height={250} 
-              className="h-20 md:h-36 lg:h-44 w-auto mx-auto dark:invert transition-all duration-500"
+              className="h-16 md:h-28 lg:h-32 w-auto mx-auto dark:invert transition-all duration-500"
               priority
             />
             <p className="font-serif italic text-[15px] md:text-[16px] text-zinc-600 dark:text-zinc-400 mt-3 tracking-[0.05em] leading-none">
@@ -244,10 +244,10 @@ export function Navbar() {
                 <Link href="/">
                   <Image 
                     src="/logo.png" 
-                    alt="The Indianberg" 
+                    alt="The Indian Berg" 
                     width={180} 
                     height={40} 
-                    className="h-6 md:h-8 w-auto dark:invert"
+                    className="h-5 md:h-7 w-auto dark:invert"
                   />
                 </Link>
               </div>
@@ -303,10 +303,10 @@ export function Navbar() {
                 <Link href="/" onClick={() => setIsMenuOpen(false)}>
                   <Image 
                     src="/logo.png" 
-                    alt="The Indianberg" 
+                    alt="The Indian Berg" 
                     width={150} 
                     height={40} 
-                    className="h-7 w-auto dark:invert"
+                    className="h-6 w-auto dark:invert"
                   />
                 </Link>
                 <motion.button

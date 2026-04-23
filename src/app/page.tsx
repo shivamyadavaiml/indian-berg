@@ -110,7 +110,7 @@ export default async function Home() {
                     {hero.excerpt || hero.description}
                   </p>
                   <div className="flex items-center gap-4 text-[12px] font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 dark:border-zinc-900 pt-4">
-                    <span className="text-zinc-900 dark:text-zinc-100">By {hero.author || "The Indianberg Staff"}</span>
+                    <span className="text-zinc-900 dark:text-zinc-100">By {hero.author || "The Indian Berg Staff"}</span>
                     <span>•</span>
                     <span className="italic">{hero.timeAgo || "Updated moments ago"}</span>
                   </div>

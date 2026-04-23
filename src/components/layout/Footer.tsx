@@ -34,10 +34,10 @@ export function Footer() {
             <Link href="/" className="flex flex-col items-start mb-6 no-underline">
               <Image 
                 src="/logo.png" 
-                alt="The Indianberg" 
+                alt="The Indian Berg" 
                 width={200} 
                 height={50} 
-                className="h-10 w-auto invert" 
+                className="h-9 w-auto invert" 
               />
               <span className="text-xs font-sans tracking-[0.2em] text-zinc-400 uppercase mt-2">
                 Breaking barriers, shaping narrative
@@ -96,7 +96,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-zinc-800 pt-8 mt-4 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-zinc-500 text-sm">
-            &copy; {new Date().getFullYear()} The Indianberg. All rights reserved.
+            &copy; {new Date().getFullYear()} The Indian Berg. All rights reserved.
           </p>
           <div className="flex gap-6">
             {footerLinks.legal.map((link) => (
