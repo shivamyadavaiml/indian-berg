@@ -62,7 +62,7 @@ export async function GET() {
         ];
 
         for (let sel of selectors) {
-          const img = document.querySelector(sel);
+          const img = document.querySelector(sel) as HTMLImageElement;
           if (img && img.src && img.src.startsWith("http")) {
             return img.src;
           }
