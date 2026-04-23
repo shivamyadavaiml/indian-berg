@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 
 export async function GET() {
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
   await page.goto("https://theindianberg.com/", {
