@@ -33,7 +33,7 @@ export default async function Home() {
 
   return (
     <div className="w-full bg-white dark:bg-black font-sans pb-20 selection:bg-red-100 selection:text-red-900">
-      
+
       {/* 1. NEWS FLASH (RED TICKER) */}
       {newsFlash.length > 0 && (
         <div className="bg-[#B00000] text-white py-1.5 overflow-hidden border-b border-red-900">
@@ -53,17 +53,19 @@ export default async function Home() {
       )}
 
       <main className="max-w-[1600px] mx-auto px-4 md:px-8 pt-6">
-        
+        <AdBanner type="leaderboard" className="mb-12" />
+
 
 
         {/* 2. MAIN EDITORIAL GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 border-b border-zinc-200 dark:border-zinc-800 pb-16">
-          
+
           {/* LEFT: LATEST (Clean, minimalist list) */}
           <div className="lg:col-span-3 space-y-10 order-2 lg:order-1 border-r border-zinc-100 dark:border-zinc-900 pr-8">
             <div className="flex items-center justify-between border-b border-black dark:border-white pb-2 mb-6">
-               <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-900 dark:text-zinc-100">Latest Coverage</h3>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-900 dark:text-zinc-100">Latest Coverage</h3>
             </div>
+            {sideStories.map((post: any, i: number) => (
               <article key={i} className="group pb-8 border-b border-zinc-50 dark:border-zinc-900 last:border-0 last:pb-0 flex flex-row lg:flex-col gap-4">
                 <Link href={`/article/${post._id}`} className="flex-1">
                   <span className="text-[10px] font-bold uppercase text-red-700 dark:text-red-500 tracking-widest mb-2 block">{post.tag || "Archive"}</span>
@@ -73,8 +75,8 @@ export default async function Home() {
                 </Link>
                 {post.imageUrl && (
                   <div className="relative w-24 h-24 lg:w-full lg:aspect-[3/2] overflow-hidden bg-zinc-100 dark:bg-zinc-900 flex-shrink-0">
-                    <Image 
-                      src={post.imageUrl} 
+                    <Image
+                      src={post.imageUrl}
                       alt={post.title}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -82,6 +84,7 @@ export default async function Home() {
                   </div>
                 )}
               </article>
+            ))}
           </div>
 
           {/* CENTER: HERO (Dominant visual & typography) */}
@@ -91,8 +94,8 @@ export default async function Home() {
                 <Link href={`/article/${hero._id}`}>
                   {hero.imageUrl && (
                     <div className="relative aspect-[16/9] mb-8 overflow-hidden bg-zinc-100 dark:bg-zinc-900 group-hover:brightness-95 transition-all">
-                      <Image 
-                        src={hero.imageUrl} 
+                      <Image
+                        src={hero.imageUrl}
                         alt={hero.title}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -119,24 +122,24 @@ export default async function Home() {
             {secondaryHero && (
               <article className="group pt-10 border-t-2 border-black dark:border-white flex flex-col md:flex-row gap-8">
                 <div className="flex-1">
-                   <Link href={`/article/${secondaryHero._id}`}>
-                      {secondaryHero.imageUrl && (
-                        <div className="relative aspect-[4/3] mb-4 overflow-hidden bg-zinc-100 dark:bg-zinc-900">
-                          <Image 
-                            src={secondaryHero.imageUrl} 
-                            alt={secondaryHero.title}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        </div>
-                      )}
-                      <h3 className="font-serif font-black text-[24px] leading-[1.1] mb-4 group-hover:text-red-700 transition-colors">
-                        {secondaryHero.title}
-                      </h3>
-                      <p className="text-[15px] text-zinc-500 dark:text-zinc-400 leading-relaxed line-clamp-4">
-                        {secondaryHero.excerpt || secondaryHero.description}
-                      </p>
-                   </Link>
+                  <Link href={`/article/${secondaryHero._id}`}>
+                    {secondaryHero.imageUrl && (
+                      <div className="relative aspect-[4/3] mb-4 overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                        <Image
+                          src={secondaryHero.imageUrl}
+                          alt={secondaryHero.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                    )}
+                    <h3 className="font-serif font-black text-[24px] leading-[1.1] mb-4 group-hover:text-red-700 transition-colors">
+                      {secondaryHero.title}
+                    </h3>
+                    <p className="text-[15px] text-zinc-500 dark:text-zinc-400 leading-relaxed line-clamp-4">
+                      {secondaryHero.excerpt || secondaryHero.description}
+                    </p>
+                  </Link>
                 </div>
               </article>
             )}
@@ -145,7 +148,7 @@ export default async function Home() {
           {/* RIGHT: OPINIONS (Editorial board style) */}
           <div className="lg:col-span-3 space-y-8 order-3 lg:border-l lg:border-zinc-100 dark:lg:border-zinc-900 lg:pl-8">
             <div className="flex items-center justify-between border-b-2 border-red-700 pb-2 mb-8">
-               <h3 className="text-[12px] font-black uppercase tracking-[0.2em] text-red-700">Opinions</h3>
+              <h3 className="text-[12px] font-black uppercase tracking-[0.2em] text-red-700">Opinions</h3>
             </div>
             {opinions.slice(0, 6).map((post: any, i: number) => (
               <article key={i} className="group border-b border-zinc-100 dark:border-zinc-900 pb-6 last:border-0 flex items-start gap-5">
@@ -159,7 +162,15 @@ export default async function Home() {
                     </h4>
                   </Link>
                 </div>
-
+                {/* Author Portrait */}
+                <div className="relative w-12 h-12 rounded-full overflow-hidden bg-zinc-200 dark:bg-zinc-800 flex-shrink-0 grayscale group-hover:grayscale-0 transition-all">
+                  <Image
+                    src={post.authorImageUrl || `https://ui-avatars.com/api/?name=${post.author || "EB"}&background=random`}
+                    alt={post.author || "Author"}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </article>
             ))}
           </div>
@@ -167,53 +178,59 @@ export default async function Home() {
 
 
 
+        {/* In-Feed Ad */}
+        <AdBanner type="in-feed" className="py-12 border-y border-zinc-100 dark:border-zinc-900" />
+
         {/* 4. MULTI-SECTION GRID (Ledger & Style) */}
         <section className="py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 border-b border-zinc-200 dark:border-zinc-800">
-          
+
           {/* Ledger Section (Left) */}
           <div className="lg:col-span-8">
             <h3 className="text-[11px] font-black uppercase tracking-widest mb-8 border-b border-black dark:border-white pb-1 inline-block">The Business Ledger</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-               {ledgerStories.map((post: any, i: number) => (
-                 <article key={i} className="flex gap-5 group border-b border-zinc-100 dark:border-zinc-900 pb-6 last:border-0 last:pb-0">
-                    {post.imageUrl && (
-                      <div className="relative w-28 h-20 overflow-hidden bg-zinc-100 dark:bg-zinc-900 flex-shrink-0">
-                        <Image src={post.imageUrl} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform" />
-                      </div>
-                    )}
-                    <div className="flex-1">
-                       <Link href={`/article/${post._id}`}>
-                          <h4 className="font-serif font-bold text-[17px] leading-snug group-hover:text-red-700 transition-colors mb-2">
-                            {post.title}
-                          </h4>
-                       </Link>
-                       <p className="text-[13px] text-zinc-500 line-clamp-2 leading-relaxed">{post.excerpt}</p>
-                    </div>
-                 </article>
-               ))}
+              {ledgerStories.map((post: any, i: number) => (
+                <article key={i} className="flex gap-5 group border-b border-zinc-100 dark:border-zinc-900 pb-6 last:border-0 last:pb-0">
+                  <div className="relative w-28 h-20 overflow-hidden bg-zinc-100 dark:bg-zinc-900 flex-shrink-0">
+                    <Image
+                      src={post.imageUrl || "https://images.unsplash.com/photo-1444653300305-64906f3922f3?q=80&w=400&auto=format&fit=crop"}
+                      alt={post.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <Link href={`/article/${post._id}`}>
+                      <h4 className="font-serif font-bold text-[17px] leading-snug group-hover:text-red-700 transition-colors mb-2">
+                        {post.title}
+                      </h4>
+                    </Link>
+                    <p className="text-[13px] text-zinc-500 line-clamp-2 leading-relaxed">{post.excerpt}</p>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
 
           {/* Style Section (Right) */}
           <div className="lg:col-span-4 lg:pl-8 lg:border-l lg:border-zinc-100 dark:lg:border-zinc-900">
-             <h3 className="text-[11px] font-black uppercase tracking-widest mb-8 border-b border-black dark:border-white pb-1 inline-block">The Style Section</h3>
-             <div className="space-y-10">
-                {style.slice(0, 3).map((post: any, i: number) => (
-                   <article key={i} className="group">
-                     {post.imageUrl && (
-                       <div className="relative aspect-[16/9] mb-4 overflow-hidden bg-zinc-100 dark:bg-zinc-900">
-                          <Image src={post.imageUrl} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                       </div>
-                     )}
-                     <Link href={`/article/${post._id}`}>
-                       <h4 className="font-serif font-black text-[20px] leading-tight group-hover:text-red-700 transition-colors tracking-tight">
-                         {post.title}
-                       </h4>
-                     </Link>
-                     <p className="mt-2 text-[13px] text-zinc-500 leading-relaxed line-clamp-2">{post.excerpt}</p>
-                   </article>
-                ))}
-             </div>
+            <h3 className="text-[11px] font-black uppercase tracking-widest mb-8 border-b border-black dark:border-white pb-1 inline-block">The Style Section</h3>
+            <div className="space-y-10">
+              {style.slice(0, 3).map((post: any, i: number) => (
+                <article key={i} className="group">
+                  {post.imageUrl && (
+                    <div className="relative aspect-[16/9] mb-4 overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                      <Image src={post.imageUrl} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    </div>
+                  )}
+                  <Link href={`/article/${post._id}`}>
+                    <h4 className="font-serif font-black text-[20px] leading-tight group-hover:text-red-700 transition-colors tracking-tight">
+                      {post.title}
+                    </h4>
+                  </Link>
+                  <p className="mt-2 text-[13px] text-zinc-500 leading-relaxed line-clamp-2">{post.excerpt}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -222,27 +239,37 @@ export default async function Home() {
           <div className="lg:col-span-8">
             <h3 className="text-[11px] font-black uppercase tracking-widest mb-8 border-b border-black dark:border-white pb-1 inline-block">Policy & Politics</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-               {politics.slice(0, 6).map((post: any, i: number) => (
-                 <article key={i} className="group border-b border-zinc-100 dark:border-zinc-900 pb-5 last:border-0">
+              {politics.slice(0, 6).map((post: any, i: number) => (
+                <article key={i} className="group border-b border-zinc-100 dark:border-zinc-900 pb-5 last:border-0 flex gap-4">
+                  <div className="flex-1">
                     <Link href={`/article/${post._id}`}>
-                       <h4 className="font-serif font-black text-[17px] leading-tight group-hover:text-red-700 transition-colors tracking-tight">
-                         {post.title}
-                       </h4>
+                      <h4 className="font-serif font-black text-[17px] leading-tight group-hover:text-red-700 transition-colors tracking-tight">
+                        {post.title}
+                      </h4>
                     </Link>
                     <div className="mt-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{post.timeAgo}</div>
-                 </article>
-               ))}
+                  </div>
+                  <div className="relative w-20 h-20 overflow-hidden bg-zinc-100 dark:bg-zinc-900 flex-shrink-0">
+                    <Image
+                      src={post.imageUrl || "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=400&auto=format&fit=crop"}
+                      alt={post.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform"
+                    />
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
           <div className="lg:col-span-4 lg:pl-8 lg:border-l lg:border-zinc-100 dark:lg:border-zinc-900">
-             <div className="bg-zinc-50 dark:bg-zinc-950 p-6 border border-zinc-100 dark:border-zinc-900 rounded-sm">
-                <h4 className="text-lg font-serif font-black mb-3">The Briefing</h4>
-                <p className="text-[13px] text-zinc-500 mb-5 leading-relaxed">The only intelligence briefing you need to start your day. Delivered at 6 AM.</p>
-                <div className="flex flex-col gap-2">
-                   <input type="email" placeholder="Email address" className="bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 px-4 py-2.5 text-sm outline-none focus:border-red-700 transition-colors" />
-                   <button className="bg-black dark:bg-white text-white dark:text-black py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-red-700 hover:text-white transition-all">Sign Up</button>
-                </div>
-             </div>
+            <div className="bg-zinc-50 dark:bg-zinc-950 p-6 border border-zinc-100 dark:border-zinc-900 rounded-sm">
+              <h4 className="text-lg font-serif font-black mb-3">The Briefing</h4>
+              <p className="text-[13px] text-zinc-500 mb-5 leading-relaxed">The only intelligence briefing you need to start your day. Delivered at 6 AM.</p>
+              <div className="flex flex-col gap-2">
+                <input type="email" placeholder="Email address" className="bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 px-4 py-2.5 text-sm outline-none focus:border-red-700 transition-colors" />
+                <button className="bg-black dark:bg-white text-white dark:text-black py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-red-700 hover:text-white transition-all">Sign Up</button>
+              </div>
+            </div>
           </div>
         </section>
 
