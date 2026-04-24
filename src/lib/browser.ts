@@ -6,7 +6,7 @@ export async function getBrowser() {
     const executablePath = await chromium.executablePath();
     return await puppeteer.launch({
       args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
+      defaultViewport: (chromium as any).defaultViewport,
       executablePath,
       headless: chromium.headless as any,
     });
@@ -15,8 +15,8 @@ export async function getBrowser() {
     // You might need to change this path to your local Chrome/Chromium path
     // or install 'puppeteer' locally for dev.
     // For now, let's try to find it automatically or use a common path.
-    const localExecutablePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"; 
-    
+    const localExecutablePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+
     return await puppeteer.launch({
       executablePath: localExecutablePath,
       headless: true,
