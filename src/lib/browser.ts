@@ -5,10 +5,10 @@ export async function getBrowser() {
   if (process.env.NODE_ENV === "production") {
     const executablePath = await chromium.executablePath();
     return await puppeteer.launch({
-      args: chromium.args,
+      args: (chromium as any).args,
       defaultViewport: (chromium as any).defaultViewport,
       executablePath,
-      headless: chromium.headless as any,
+      headless: (chromium as any).headless,
     });
   } else {
     // For local development
