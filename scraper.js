@@ -1,7 +1,10 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 
 async function scrape() {
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ 
+    executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", 
+    headless: "new" 
+  });
   const page = await browser.newPage();
 
   // Open website

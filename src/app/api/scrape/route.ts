@@ -1,7 +1,7 @@
-import puppeteer from "puppeteer";
+import { getBrowser } from "@/lib/browser";
 
 export async function GET() {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await getBrowser();
   const page = await browser.newPage();
 
   await page.goto("https://theindianberg.com/", {
